@@ -9,7 +9,9 @@
 import arff ## install Liac-arff module (https://pypi.python.org/pypi/liac-arff) that implements functions to read and write ARFF files in Python
 import csv ## In order to write data to a CSV file for AWS S3 to read
 from random import shuffle
-data_dict = arff.load(open('column_2C_weka.arff', 'rb')) #Reading ARFF
+
+##Reading ARFF
+data_dict = arff.load(open('column_2C_weka.arff', 'rb'))
 data = data_dict["data"] #List of Datapoints only
 shuffle(data) #Shuffle the patients within the dataset 
 attributes_tup = data_dict["attributes"] #Extract attribute tuples
@@ -19,7 +21,8 @@ for i in attributes_tup: #Extract only relevant attribute names
         Attributes.append(tup)
 Ortho_dataset= [Attributes]+ data
 
-for row in Ortho_dataset: ## Changing to binary values : "Abnormal" to 1 and "Normal" to 0
+##Cleaning data - changing to binary values : "Abnormal" to 1 and "Normal" to 0
+for row in Ortho_dataset: 
     for i in row: 
         if i == "Abnormal":
             row.remove(i)
@@ -28,8 +31,8 @@ for row in Ortho_dataset: ## Changing to binary values : "Abnormal" to 1 and "No
             row.remove(i)
             row.append("0")
 
-
-def writeCsvFile(filename, dataset): #Writing dataset to CSV 
+#Writing dataset to CSV 
+def writeCsvFile(filename, dataset): 
     """
     @filename: string, filname to save it as
     @dataset: list of list of items
